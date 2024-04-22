@@ -1,44 +1,36 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
-        Solution solution = new Solution();
-//        int[][] score = {{80, 70}, {70, 80}, {30, 50}, {90, 100}, {100, 90}, {100, 100}, {10, 30}};
-        int[][] score = {{0, 0}, {1, 0}};
-        for (int a : solution.solution(score)) {
-            System.out.println(a);
-        }
+
+        ;
+
+        Solution s = new Solution();
+        System.out.println(s.solution(9,2,1,3));
     }
 }
 
 class Solution {
-    public int[] solution(int[][] score) {
-        double[] evrList = new double[score.length];
-        int[] result = new int[score.length];
-        int rank = 1;
-        double lastEvr = 0;
+    public String solution(int numer1, int denom1, int numer2, int denom2) {
+        int resNumer = denom1 * numer2 + denom2 * numer1;
+        int resDenom = denom1 * denom2;
 
-        for (int i = 0; i < score.length; i++) { // evrList에 각 평균 저장
-            evrList[i] = (score[i][0] + score[i][1]) / 2.0;
-        }
 
-        for (int i = 0; i < evrList.length; i++) {
-            int correctPeople = 0;
-            for (int j = 0; j < evrList.length; j++) {
-                if (result[j] == 0) {
-                    if (evrList[j] > lastEvr) {
-                        lastEvr = evrList[j];
-                    }
-                }
+        for (int i = 2; i <= resNumer + resDenom; i++) {
+            if (resNumer % i == 0 && resDenom % i == 0) {
+                resNumer /= i;
+                resDenom /= i;
+
+                i = 2;
             }
-            for (int j = 0; j < evrList.length; j++) {
-                if(result[j]==0){
-                    if (lastEvr == evrList[j]) {
-                        result[j] = rank;
-                        correctPeople++;
-                    }
-                }
-            }
-            rank += correctPeople;
         }
-        return result;
+        if (resNumer % 2 == 0 && resDenom % 2 == 0) {
+            resNumer /= 2;
+            resDenom /= 2;
+        }
+        int[] answer = {resNumer, resDenom};
+
+        return Arrays.toString(answer);
     }
 }
